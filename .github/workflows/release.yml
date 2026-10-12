@@ -1,0 +1,61 @@
+name: Create PDF Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+jobs:
+  build-and-release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Playwright
+        run: npx playwright install chromium --with-deps
+
+      - name: Export to PDF
+        run: npm run export -- --with-clicks --timeout 60000
+
+      - name: Get version
+        id: version
+        run: |
+          if [[ $GITHUB_REF == refs/tags/* ]]; then
+            echo "version=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
+          else
+            echo "version=$(date +'%Y%m%d-%H%M%S')" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Rename PDF
+        run: mv slides-export.pdf railway-topology-${{ steps.version.outputs.version }}.pdf
+
+      - name: Create release and upload PDF
+        if: startsWith(github.ref, 'refs/tags/')
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release view ${{ steps.version.outputs.version }} >/dev/null 2>&1 \
+            || gh release create ${{ steps.version.outputs.version }} --title "${{ steps.version.outputs.version }}" --notes "PDF export of the slides"
+          gh release upload ${{ steps.version.outputs.version }} \
+            railway-topology-${{ steps.version.outputs.version }}.pdf \
+            --clobber
+
+      - name: Upload PDF artifact
+        if: "!startsWith(github.ref, 'refs/tags/')"
+        uses: actions/upload-artifact@v4
+        with:
+          name: slides-pdf
+          path: railway-topology-${{ steps.version.outputs.version }}.pdf

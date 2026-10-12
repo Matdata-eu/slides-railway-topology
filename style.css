@@ -1,0 +1,100 @@
+/* Bane NOR look for the deck.
+   Colours come from the Bane NOR design-system tokens (brand blue 700/500/300, slate/gray/ghost neutrals).
+   Every colour used by slides and components is a variable here, so light and dark mode stay readable. */
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700&display=swap');
+
+:root {
+  --bn-font: myriad-variable, "Myriad Pro", "Source Sans 3", "Segoe UI", sans-serif;
+  --c-bg: #FFFFFF;
+  --c-surface: #F3F4F5;
+  --c-ink: #172141;
+  --c-ink-mod: #686E83;
+  --c-ink-subtle: #969BA9;
+  --c-stroke: #DCDEE3;
+  --c-navy: #1E2869;
+  --c-heading: #1E2869;
+  --c-blue: #0053A6;
+  --c-blue-strong: #1E2869;
+  --c-blue-bg: #E1F3FA;
+  --c-sky: #64C8FA;
+  --c-green: #1A8A4A;
+  --c-green-bg: #DDFAE2;
+  --c-green-ink: #11603A;
+  --c-red: #C8102E;
+  --c-red-bg: #FDE7E9;
+  --c-red-ink: #8A0F22;
+  --c-orange: #D9620B;
+  --c-orange-bg: #FEF3E6;
+  --c-amber: #C99200;
+  --c-amber-bg: #FEF7E6;
+  --c-amber-ink: #7A5700;
+  --c-purple: #7B3FC4;
+  --c-teal: #00838F;
+  --c-pink: #C2185B;
+}
+html.dark {
+  --c-bg: #162031;
+  --c-surface: #222B44;
+  --c-ink: #FFFFFF;
+  --c-ink-mod: #AEB1B7;
+  --c-ink-subtle: #7F858E;
+  --c-stroke: #394150;
+  --c-heading: #FFFFFF;
+  --c-blue: #64C8FA;
+  --c-blue-strong: #C4EFFF;
+  --c-blue-bg: #283560;
+  --c-green: #35DE6D;
+  --c-green-bg: #1E3B2E;
+  --c-green-ink: #BBF9C5;
+  --c-red: #FF7A7A;
+  --c-red-bg: #3D1F2A;
+  --c-red-ink: #FFC4C4;
+  --c-orange: #FFA040;
+  --c-orange-bg: #3A2B1E;
+  --c-amber: #FAC414;
+  --c-amber-bg: #3A321C;
+  --c-amber-ink: #FFEBAD;
+  --c-purple: #C49BFF;
+  --c-teal: #4DD6E0;
+  --c-pink: #FF8FB8;
+}
+
+.slidev-layout { font-family: var(--bn-font); background: var(--c-bg); color: var(--c-ink); }
+.slidev-layout h1 { color: var(--c-heading); font-weight: 700; }
+.slidev-layout h1::after { content: ""; display: block; width: 56px; height: 4px; margin-top: 8px; background: var(--c-sky); border-radius: 2px; }
+.slidev-layout.center h1::after, .slidev-layout.section h1::after, .slidev-layout.cover h1::after { margin-inline: auto; }
+.slidev-layout.section { background: var(--c-navy); color: #fff; }
+.slidev-layout.section h1, .slidev-layout.section h2 { color: #fff; }
+.slidev-layout table th { color: var(--c-ink-mod); }
+.slidev-layout table td, .slidev-layout table th { border-color: var(--c-stroke); }
+.slidev-layout img.plan { background: #fff; padding: 6px; border-radius: 8px; }
+.slidev-code { font-size: 0.72rem !important; line-height: 1.35 !important; }
+
+/* shared slide blocks */
+.ans { background: var(--c-surface); border: 1px solid var(--c-stroke); border-radius: 10px; padding: 8px; text-align: center; }
+.ans.hl { background: var(--c-blue-bg); border-color: var(--c-blue); }
+.sub { color: var(--c-ink-mod); font-size: 12px; }
+.card { background: var(--c-surface); border-left: 4px solid var(--c-blue); padding: 8px 10px; border-radius: 6px; }
+.prob { background: var(--c-orange-bg); border-radius: 12px; padding: 14px; border: 1px solid var(--c-stroke); }
+.prob h3 { margin-top: 0; color: var(--c-heading); }
+.tk { background: var(--c-surface); border-radius: 12px; padding: 16px; font-size: 15px; line-height: 1.5; border-top: 4px solid var(--c-sky); }
+.muted { color: var(--c-ink-mod); }
+
+/* cover */
+.slidev-layout.cover.bn-cover { padding: 0; text-align: left; }
+.bn-cover-panel { position: absolute; inset: 0 45% 0 0; background: rgba(30, 40, 105, .92); color: #fff;
+  padding: 56px 48px; display: flex; flex-direction: column; justify-content: center; border-right: 6px solid var(--c-sky); }
+.bn-cover-panel h1 { color: #fff !important; font-size: 2.6rem; line-height: 1.1; }
+.bn-cover-panel h2 { color: #C4EFFF; font-size: 1.25rem; margin-top: 12px; }
+
+/* compact comparison table */
+.rosetta table { font-size: 0.78rem; line-height: 1.25; }
+.rosetta th, .rosetta td { padding: 0.3rem 0.45rem !important; }
+.rosetta code { font-size: 0.72rem; }
+
+.tplib { text-align: center; font-size: 0.72rem; line-height: 1.25; }
+.tplib img { height: 250px; width: 100%; object-fit: contain; background: #fff; border-radius: 8px; border: 1px solid var(--c-stroke); }
+.tplib div { margin-top: 4px; color: var(--c-ink-mod); }
+.tplib b { color: var(--c-ink); }
+
+.smallcode .slidev-code { font-size: 0.62rem !important; }

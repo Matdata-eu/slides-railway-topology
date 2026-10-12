@@ -1,0 +1,19 @@
+{
+  "name": "rinf-topology-workshop",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Railway topology as foundation - RINF workshop (45 min) - Slidev presentation",
+  "scripts": {
+    "dev": "slidev slides.md --open",
+    "build": "slidev build slides.md",
+    "export": "slidev export slides.md"
+  },
+  "dependencies": {
+    "@slidev/cli": "52.14.2",
+    "@slidev/theme-default": "0.25.0",
+    "vue": "^3.4.0"
+  },
+  "devDependencies": {
+    "playwright-chromium": "^1.45.0"
+  }
+}
