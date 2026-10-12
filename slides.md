@@ -13,12 +13,12 @@ mdc: true
 routerMode: hash
 layout: cover
 class: bn-cover
-background: ./assets/tracks-photo.jpeg
+background: /assets/tracks-photo.jpeg
 ---
 
 <div class="bn-cover-panel">
 
-<img src="./assets/banenor-logo-inverted.svg" class="h-12 mb-8" alt="Bane NOR" />
+<img src="/assets/banenor-logo-inverted.svg" class="h-12 mb-8" alt="Bane NOR" />
 
 # One network, one truth
 
@@ -107,7 +107,7 @@ The shapes morph, the connections never change. In the meso view, the whole stat
 
 # Real life looks like this
 
-<img src="./assets/four-views.png" class="h-[420px] mx-auto rounded shadow plan" />
+<img src="/assets/four-views.png" class="h-[420px] mx-auto rounded shadow plan" />
 
 <!-- Infrabel: geographic, signalling plan, micro logical topology, meso logical topology. -->
 
@@ -152,13 +152,13 @@ clicks: 3
 <div class="grid grid-cols-2 gap-4">
 <div>
 
-<img src="./assets/kongsvinger-track-plan.jpeg" class="h-52 mx-auto rounded plan" />
+<img src="/assets/kongsvinger-track-plan.jpeg" class="h-52 mx-auto rounded plan" />
 <div class="text-center text-sm mt-1">Kongsvinger · a handful of tracks · doable by hand</div>
 
 </div>
 <div>
 
-<img src="./assets/oslo-s-track-plan.jpeg" class="h-52 mx-auto rounded plan" />
+<img src="/assets/oslo-s-track-plan.jpeg" class="h-52 mx-auto rounded plan" />
 <div class="text-center text-sm mt-1">Oslo S · about 50 station tracks · not doable by hand</div>
 
 </div>
@@ -387,10 +387,10 @@ WHERE {
 # tp-lib · GNSS positions on the topology
 
 <div class="grid grid-cols-4 gap-2 mt-1">
-<div class="tplib"><img src="./assets/tplib-raw.png" /><div><b>1 · Raw GNSS</b><br>noisy, gaps, which track?</div></div>
-<div v-click class="tplib"><img src="./assets/tplib-simple-projection.png" /><div><b>2 · Nearest track</b><br>jumps between tracks</div></div>
-<div v-click class="tplib"><img src="./assets/tplib-path.png" /><div><b>3 · Path through the topology</b><br>HMM / Viterbi on net relations</div></div>
-<div v-click class="tplib"><img src="./assets/tplib-path-projection.png" /><div><b>4 · Projected on the path</b><br>netelement + intrinsic offset</div></div>
+<div class="tplib"><img src="/assets/tplib-raw.png" /><div><b>1 · Raw GNSS</b><br>noisy, gaps, which track?</div></div>
+<div v-click class="tplib"><img src="/assets/tplib-simple-projection.png" /><div><b>2 · Nearest track</b><br>jumps between tracks</div></div>
+<div v-click class="tplib"><img src="/assets/tplib-path.png" /><div><b>3 · Path through the topology</b><br>HMM / Viterbi on net relations</div></div>
+<div v-click class="tplib"><img src="/assets/tplib-path-projection.png" /><div><b>4 · Projected on the path</b><br>netelement + intrinsic offset</div></div>
 </div>
 
 <div v-click class="text-center mt-3">Without topology a train teleports between tracks. With it, the only answers are <b>routes a train can actually drive</b>.</div>
@@ -423,7 +423,7 @@ clicks: 4
 
 # Oslo S, coloured by primary location
 
-<img src="./assets/oslo-s-primary-locations-qgis.png" class="h-[430px] mx-auto rounded shadow plan" />
+<img src="/assets/oslo-s-primary-locations-qgis.png" class="h-[430px] mx-auto rounded shadow plan" />
 
 ---
 clicks: 3
@@ -528,7 +528,7 @@ Mathias Vanden Auweele · Bane NOR<br>
 
 </div>
 <div class="text-center">
-<img src="./assets/qr-repo.svg" class="qr" alt="QR code to github.com/Matdata-eu/slides-railway-topology" />
+<img src="/assets/qr-repo.svg" class="qr" alt="QR code to github.com/Matdata-eu/slides-railway-topology" />
 <div class="text-xs muted mt-1">scan for the repo</div>
 </div>
 </div>
