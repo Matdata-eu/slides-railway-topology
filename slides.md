@@ -288,8 +288,10 @@ Click a2 or a6 to flip them: appliesToDirection flips, signalOrientation never m
 
 1. Direction is **never a property of the signal alone**. It is relative to the element it is positioned on.
 2. Store it relative to the **topology** (`appliesToDirection`).
-3. **Derive** the km-relative RINF value or the track's `mainDirection` value, as long as the element orientation and the km direction or track direction are known.
+3. **Derive** the track's `mainDirection` value from it, as long as the element orientation and the track direction are known.
 4. A reviewer asking "normal or reverse?" must first ask **"relative to what?"**
+
+<div class="card warn-card mt-3 text-[0.85rem]">⚠️ <b>Don't base direction on ascending/descending km.</b> Kilometres are ambiguous (mileage changes, two lines with the same km, opposite counting directions) and not available everywhere, e.g. on sidings, in yards or across line borders.</div>
 
 </div>
 <div class="col-span-3">
