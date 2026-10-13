@@ -273,8 +273,8 @@ layout: section
 # Two directions on one signal
 
 <div class="grid grid-cols-2 gap-3 text-xs mb-1">
-<div class="card"><b>appliesToDirection</b>: does the signal apply to trains running in the <b>normal or reverse direction of the net element</b>?</div>
-<div class="card"><b>signalOrientation</b>: does the signal apply to trains running in the <b>normal or reverse direction of the track</b> (its main running direction)?</div>
+<div class="card"><b>appliesToDirection</b>: does the signal apply to trains running in the <b>normal or reverse direction relative to the direction of the net element</b>?</div>
+<div class="card"><b>signalOrientation</b>: does the signal apply to trains running in the <b>normal or reverse direction relative to the main driving direction of the track</b>?</div>
 </div>
 
 <DirectionPlayground />
