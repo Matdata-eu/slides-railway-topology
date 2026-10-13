@@ -455,8 +455,11 @@ clicks: 3
 
 <WorksiteProtection :step="$clicks" />
 
+<div class="text-xs muted mt-1">⚠️ Simplified. Real worksite protection planning needs more than this data can infer: safety distances, (local) operational rules, and the judgement of the people who plan and approve it. The topology gives a consistent starting point, not the final answer.</div>
+
 <!--
 The worksite is one linear location on Track 2.
+Caveat: real safety boundaries also depend on safety distances and (local) operational rules that are not in the data we discussed.
 1 Signal boundaries: walk outwards through navigable relations until a signal faces a train heading for the worksite. Here B and D, not the exit signals.
 2 Catenary: the section under the worksite is switched off and earthed; the sectioning elements and breaker around it are opened. Side effect: the siding loses supply.
 3 Defined, checked and communicated from one position. Click Track 1, the siding or the open line to show it recompute (the open line gives a warning).
