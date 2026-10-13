@@ -3,7 +3,7 @@ import { computed } from 'vue'
 import { type Pt, pathD } from '../lib/net'
 
 /**
- * One station (one OP bounded by entrance signals) split into three primary locations
+ * One stasjon (the area bounded by entrance and exit signals, formerly one OP) split into three primary locations
  * by intra-station borders (NetPointReferences) that cut its NetAreaReference.
  * Step 4 shows the meso view: SoLs left and right, PL/OP1 in the middle, link SoLs to PL/OP2 and PL/OP3.
  */
@@ -44,10 +44,10 @@ const meso = computed(() => s.value >= 4)
 <template>
   <div class="ops">
     <div class="cap">
-      <template v-if="s === 0">Bane NOR maintenance organises the station as <b>one OP</b>: the interlocking area, bounded by <b>entrance signals</b>.</template>
+      <template v-if="s === 0">In Bane NOR a <b>stasjon</b> is a technical term: the network area bounded by its <b>entrance and exit signals</b>. It used to be <b>one OP</b>.</template>
       <template v-else-if="s === 1">But the train planning system routes trains to <b>three primary locations</b>.</template>
       <template v-else-if="s === 2"><b>Intra-station borders</b> are placed on the topology as <code>NetPointReference</code>s.</template>
-      <template v-else-if="s === 3">They cut the station <code>NetAreaReference</code> into <b>three parts</b>, no geometry drawn by hand.</template>
+      <template v-else-if="s === 3">They cut the stasjon <code>NetAreaReference</code> into <b>three parts</b>, no geometry drawn by hand.</template>
       <template v-else><b>Meso view:</b> SoLs left and right connect to PL/OP1. SoLs with <code>solNature</code> <b>link</b> lead to PL/OP2 and PL/OP3.</template>
     </div>
     <svg viewBox="0 10 1000 300" class="cv">
@@ -59,7 +59,7 @@ const meso = computed(() => s.value >= 4)
       <g :class="['micro', { faded: meso }]">
         <!-- OP boundary as interlocking area -->
         <rect x="200" y="28" width="600" height="262" rx="18" class="opbox" :class="{ gone: s >= 3 }" />
-        <text x="215" y="48" class="oplabel" :class="{ gone: s >= 3 }">OP «Stasjon» · interlocking area</text>
+        <text x="215" y="48" class="oplabel" :class="{ gone: s >= 3 }">stasjon «Stasjon» · entrance to exit signals</text>
 
         <!-- area shading -->
         <path v-for="t in tracks" :key="'a' + t.id" :d="pathD(t.pts)" class="area" :style="{ stroke: areaColour(t.area) }" />

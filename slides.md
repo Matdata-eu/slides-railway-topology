@@ -411,16 +411,19 @@ Output is a topological position: exactly what the inference rules need.
 clicks: 4
 ---
 
-# One station, three primary locations
+# One stasjon, three primary locations
 
 <OpSplit :step="$clicks" />
 
+<div class="card text-sm mt-1">🇳🇴 Latest Norwegian RINF release: <b>1 OP = 1 PL</b>. Each stasjon is split into as many areas as it has primary locations.</div>
+
 <!--
-1 The station as Bane NOR maintenance organised it: one OP, bounded by entrance and exit signals (interlocking principle).
+1 A Bane NOR "stasjon" is a technical term: the network area bounded by entrance and exit signals (interlocking principle). It used to be one OP.
 2 The train planning system routes trains to three primary locations: passenger area, maintenance yard, freight terminal.
 3 Intra-station borders as NetPointReferences on the topology.
-4 They cut the station NetAreaReference into three parts.
+4 They cut the stasjon NetAreaReference into three parts.
 5 Meso: line tracks (SoL) left and right, PL/OP1 in the middle, SoLs of solNature "link" to PL/OP2 and PL/OP3.
+Since the latest Norwegian RINF release, OP and PL are 1:1, so every stasjon is split into as many areas as it has PLs.
 -->
 
 ---
