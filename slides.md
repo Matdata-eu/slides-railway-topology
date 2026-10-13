@@ -73,7 +73,7 @@ and how <b>operational points connect</b> through sections of line.
 <div class="text-sm muted mt-6">railML 3 wiki · IS:topology · RailTopoModel (UIC IRS 30100)</div>
 
 ---
-clicks: 9
+clicks: 11
 ---
 
 # Building a topology, step by step
@@ -81,13 +81,15 @@ clicks: 9
 <TopoBuildUp :step="$clicks" :height="330" />
 
 <!--
-Click through ten steps:
+Click through twelve steps:
 1 Empty network. 2 Net elements float, nothing more. 3 They are directed: origin 0 → end 1.
 4 Net relations: directed A → B, with navigability. That is the topology graph.
 5 Knowledge graph: in RDF the relation is itself a node, pointing to elementA and elementB. Topology graph ≠ knowledge graph.
 6 Schematic representation. 7 Geographic representation (associated positioning systems in RTM).
 8 Back to the abstract elements: spot, linear and area locations with intrinsic coordinates.
 9–10 The very same locations projected into schematic and geographic. Located once, shown everywhere.
+11 Meso level: the station tracks aggregate into one Operational Point, with a section of line on each side.
+12 Macro level: the station disappears from the graph, only the national railway line remains.
 -->
 
 ---

@@ -33,7 +33,7 @@ The playground slides run on two toy networks:
 
 | Component | Slide | What you can do live |
 |---|---|---|
-| `TopoBuildUp` | Building a topology, step by step | Ten clicks from an empty network to net elements, relations, the knowledge-graph view, schematic and geographic representations, and spot/linear/area locations |
+| `TopoBuildUp` | Building a topology, step by step | Twelve clicks from an empty network to net elements, relations, the knowledge-graph view, schematic and geographic representations, spot/linear/area locations, and aggregation to the meso and macro levels |
 | `TopoPlayground mode="hook"` | Where is this signal? | One signal, four answers to "where is it?" |
 | `TopoPlayground mode="layers"` | The same station, four times | Morph between geographic, schematic, graph and meso (OP and SoL) |
 | `TopoPlayground mode="navigability"` | Connected ≠ navigable | Click two elements to route between them; compare with a mechanical connection only |

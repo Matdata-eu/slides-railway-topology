@@ -5,11 +5,12 @@ import { type Pt, elements, elementById, points, pathD, N_SAMPLES } from '../lib
 /**
  * Step-by-step build-up of a railway topology (RailTopoModel vocabulary):
  * network → net elements → orientation → net relations → knowledge graph view
- * → schematic / geographic representation → locations on the topology, shown in every representation.
+ * → schematic / geographic representation → locations on the topology, shown in every representation
+ * → aggregation to the meso level (OP + sections of line) and the macro level (only the national railway line).
  */
 const props = withDefaults(defineProps<{ step?: number; height?: number }>(), { step: 0, height: 330 })
 
-type Mode = 'empty' | 'abstract' | 'kg' | 'schematic' | 'geo'
+type Mode = 'empty' | 'abstract' | 'kg' | 'schematic' | 'geo' | 'meso' | 'macro'
 const stages: { mode: Mode; title: string; sub: string }[] = [
   { mode: 'empty', title: 'Network', sub: 'An empty network: «Norwegian railway network». Nothing in it yet.' },
   { mode: 'abstract', title: 'Net elements', sub: 'Abstract building blocks. No position, no shape — just things that exist.' },
@@ -21,11 +22,14 @@ const stages: { mode: Mode; title: string; sub: string }[] = [
   { mode: 'abstract', title: 'Locations on the topology', sub: 'Spot, linear and area locations only need the net elements and intrinsic coordinates.' },
   { mode: 'schematic', title: 'Same locations, schematic', sub: 'Nothing was re-entered: the positions are projected onto the schematic representation.' },
   { mode: 'geo', title: 'Same locations, geographic', sub: '… and onto the geographic one. One position, many representations.' },
+  { mode: 'meso', title: 'Aggregation: meso level', sub: 'The station tracks collapse into one Operational Point, with a section of line to the left and to the right.' },
+  { mode: 'macro', title: 'Aggregation: macro level', sub: 'The station disappears from the graph. Only the national railway line remains.' },
 ]
 const s = computed(() => Math.max(0, Math.min(stages.length - 1, props.step)))
 const stage = computed(() => stages[s.value])
 const mode = computed(() => stage.value.mode)
-const showLocations = computed(() => s.value >= 7)
+const showLocations = computed(() => s.value >= 7 && s.value <= 9)
+const aggregated = computed(() => mode.value === 'meso' || mode.value === 'macro')
 
 // floating positions of the abstract net elements
 const floatPos: Record<string, Pt> = {
@@ -45,7 +49,22 @@ function abstractPts(id: string): Pt[] {
   // canonical order is from→to; if the element is reversed, origin sits at `to`
   return el.reversed ? pts.reverse() : pts
 }
+// meso / macro: the line tracks stretch to the OP, the station elements shrink into it
+const AGG_Y = 215
+const OP: Pt = [500, AGG_Y]
+const aggEnds: Record<string, [Pt, Pt]> = { e1: [[40, AGG_Y], OP], e6: [OP, [960, AGG_Y]] }
+const isLineEl = (id: string) => id in aggEnds
+function aggPts(id: string): Pt[] {
+  const [a, b] = aggEnds[id] ?? [OP, OP]
+  const out: Pt[] = []
+  for (let k = 0; k < N_SAMPLES; k++) {
+    const f = k / (N_SAMPLES - 1)
+    out.push([a[0] + (b[0] - a[0]) * f, a[1] + (b[1] - a[1]) * f])
+  }
+  return out
+}
 function pts(id: string): Pt[] {
+  if (aggregated.value) return aggPts(id)
   if (mode.value === 'schematic') return points(elementById[id], 'schematic')
   if (mode.value === 'geo') return points(elementById[id], 'geo')
   return abstractPts(id)
@@ -155,16 +174,16 @@ const area = ['e2', 'e3', 'e4', 'e5']
       </g>
 
       <!-- net elements -->
-      <g v-for="(el, idx) in elements" :key="el.id" class="elg" :class="{ show: s >= 1, drift: mode === 'abstract' || mode === 'kg' }"
+      <g v-for="(el, idx) in elements" :key="el.id" class="elg" :class="{ show: s >= 1 && (!aggregated || isLineEl(el.id)), drift: mode === 'abstract' || mode === 'kg', agg: aggregated }"
         :style="{ animationDelay: `${-idx * 1.3}s` }">
         <path :d="pathD(pts(el.id))" class="ne" :class="{ abs: mode === 'abstract' || mode === 'kg' }" />
-        <template v-if="s >= 2">
+        <template v-if="s >= 2 && !aggregated">
           <path v-for="i in [0.3, 0.55, 0.8]" :key="i" :d="chevron(el.id, i)" class="chev" :class="{ dimmed: showLocations }" />
           <g :transform="`translate(${atI(el.id, 0).p[0]},${atI(el.id, 0).p[1]})`" class="org" :class="{ dimmed: showLocations }">
             <circle r="7" /><text dy="3.5">0</text>
           </g>
         </template>
-        <text :x="atI(el.id, 0.5).p[0]" :y="atI(el.id, 0.5).p[1] - 14" class="nel">{{ el.id }}</text>
+        <text v-if="!aggregated" :x="atI(el.id, 0.5).p[0]" :y="atI(el.id, 0.5).p[1] - 14" class="nel">{{ el.id }}</text>
       </g>
 
       <!-- linear location -->
@@ -181,10 +200,35 @@ const area = ['e2', 'e3', 'e4', 'e5']
         </g>
       </g>
 
+      <!-- meso: OP with a section of line on each side -->
+      <g v-if="mode === 'meso'" class="loc-in">
+        <text x="270" :y="AGG_Y - 16" class="soll">SoL · A – Stasjon</text>
+        <text x="730" :y="AGG_Y - 16" class="soll">SoL · Stasjon – B</text>
+        <circle :cx="OP[0]" :cy="OP[1]" r="22" class="opc" />
+        <text :x="OP[0]" :y="OP[1] + 5" class="opt">OP</text>
+        <text :x="OP[0]" :y="OP[1] + 46" class="opl">Operational Point «Stasjon» · station</text>
+        <text :x="OP[0]" :y="OP[1] + 66" class="aggn">e2–e5 aggregated · e1, e6 become sections of line</text>
+      </g>
+      <!-- meso + macro: neighbouring OPs / line ends -->
+      <g v-if="aggregated" class="loc-in">
+        <circle cx="40" :cy="AGG_Y" r="9" class="opc small" /><text x="40" :y="AGG_Y + 30" class="opl">A</text>
+        <circle cx="960" :cy="AGG_Y" r="9" class="opc small" /><text x="960" :y="AGG_Y + 30" class="opl">B</text>
+      </g>
+      <!-- macro: only the national railway line -->
+      <g v-if="mode === 'macro'" class="loc-in">
+        <path :d="`M 40 ${AGG_Y} L 960 ${AGG_Y}`" class="macro" />
+        <text x="500" :y="AGG_Y - 22" class="macrol">National railway line</text>
+        <text x="500" :y="AGG_Y + 46" class="aggn">the station is no longer a node: one line from A to B</text>
+      </g>
+
       <!-- positioning-system badge -->
       <g v-if="mode === 'schematic' || mode === 'geo'" class="loc-in">
         <rect x="730" y="34" width="250" height="26" rx="6" class="badge" />
         <text x="855" y="52" class="badget">{{ mode === 'geo' ? 'positioning system: EPSG:25833' : 'positioning system: schematic x/y' }}</text>
+      </g>
+      <g v-if="aggregated" class="loc-in">
+        <rect x="730" y="34" width="250" height="26" rx="6" class="badge" />
+        <text x="855" y="52" class="badget">network level: {{ mode === 'meso' ? 'meso' : 'macro' }}</text>
       </g>
     </svg>
 
@@ -240,5 +284,14 @@ g[transform] { transition: transform 1.2s ease-in-out; }
 .legend { display: flex; gap: 18px; flex-wrap: wrap; font-size: 13px; margin-top: 4px; color: var(--c-ink); }
 .k { display: inline-block; width: 18px; height: 8px; border-radius: 4px; vertical-align: middle; }
 .spotk { background: var(--c-red); width: 8px; } .link { background: var(--c-teal); } .areak { background: var(--c-amber); opacity: .6; }
+.elg.agg .ne { stroke-width: 6; stroke: var(--c-blue); }
+.soll { font-size: 14px; text-anchor: middle; fill: var(--c-blue); font-weight: 700; }
+.opc { fill: var(--c-amber-bg); stroke: var(--c-amber); stroke-width: 3; }
+.opc.small { stroke-width: 2.5; }
+.opt { font-size: 14px; font-weight: 800; text-anchor: middle; fill: var(--c-amber-ink); }
+.opl { font-size: 14px; font-weight: 700; text-anchor: middle; fill: var(--c-ink); }
+.aggn { font-size: 12px; text-anchor: middle; fill: var(--c-ink-mod); }
+.macro { stroke: var(--c-purple); stroke-width: 10; stroke-linecap: round; fill: none; }
+.macrol { font-size: 16px; font-weight: 800; text-anchor: middle; fill: var(--c-purple); }
 @media (prefers-reduced-motion: reduce) { .elg.drift { animation: none; } }
 </style>
