@@ -233,11 +233,13 @@ clicks: 6
 
 # Bonus · schematic layouts from topology
 
+<div class="text-sm muted -mt-2 mb-2">Below you can explore a possible rule to create a schematic representation of a switch from the geographic data. The difficulty is deciding which switch branch should be drawn straight.</div>
+
 <TurnoutRules />
 
 <div class="text-sm mt-2 muted">
 
-Left/right of a switch branch can be inferred. **Which branch is continuous** cannot — RINF still lacks it. Bane NOR rule: ① same name ② same type ③ closest curvature.
+Left/right of a switch branch can be inferred from the geographic representation, by comparing the azimuth of each branch with the azimuth of the switch's entry leg. **Which branch is continuous** cannot — RINF still lacks it. Bane NOR rule: ① same name ② same type ③ closest curvature.
 
 </div>
 
