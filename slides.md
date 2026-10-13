@@ -48,7 +48,7 @@ layout: default
 <div v-click class="ans">📍 <b>59.91 N, 10.75 E</b><br><span class="sub">Geographic</span></div>
 <div v-click class="ans">📏 <b>Line 2100, km 23.456</b><br><span class="sub">Linear referencing</span></div>
 <div v-click class="ans">🏷️ <b>"Track 1 in Stasjon"</b><br><span class="sub">Organisational</span></div>
-<div v-click class="ans hl">🕸️ <b>e2 @ 1032 m, normal</b><br><span class="sub">Topological</span></div>
+<div v-click class="ans hl">🕸️ <b>e2 @ 1032 m, reverse</b><br><span class="sub">Topological</span></div>
 </div>
 
 <div v-click class="mt-3 text-lg">Only the last answer tells a computer what is <b>before</b>, <b>after</b> and <b>reachable</b>.</div>
@@ -281,9 +281,10 @@ layout: section
 
 <!--
 Double-track line: Line N has its main running direction with the km, Line S against it. Track 3 is a siding: no main direction.
-Green: where the signal faces. Orange: the track's main running direction. Chevrons on the track: element orientation, origin 0 → end.
+Green: where the signal faces. Orange: the track's main running direction. Blue: linear element orientation, origin 0 → end.
+A signal that faces the same way as its element applies to trains running in the element's reverse direction.
 appliesToDirection (ERA, railML applicationDirection) is relative to the element. signalOrientation (RINF) is relative to the track's main direction.
-Click a2 or a6 to flip them: appliesToDirection flips, signalOrientation never moves. S3 is a signal against the main direction: opposite. S4 on the siding: undefined.
+Click a2 or a6 to flip them: appliesToDirection flips, signalOrientation never moves. N1, N2, S1, S2 face with the main direction, so they apply to traffic against it: opposite. S3 faces against it: normal. S4 on the siding: undefined.
 -->
 
 ---
@@ -313,17 +314,17 @@ Click a2 or a6 to flip them: appliesToDirection flips, signalOrientation never m
     era:appliesToDirection orientations:00 ] .
 
 :N2 a era:Signal ;
-  era:signalOrientation :normal ;      # faces main dir.
+  era:signalOrientation :opposite ;    # faces main dir.
   era:netReference [ a era:NetPointReference ;
     era:hasTopoCoordinate [ era:onLinearElement :a5 ;
                             era:offsetFromOrigin 1056.0 ] ;
-  # inferred: same element, same direction as the track
-    era:appliesToDirection orientations:00 ] .
+  # inferred: faces the same way as :a5 → reverse traffic
+    era:appliesToDirection orientations:01 ] .
 ```
 
 </div>
 
-<div class="text-xs muted">Signal and track meet on <code>:a5</code>. signalOrientation normal ⇒ same direction as the track's reference; opposite ⇒ the other one. Works both ways.</div>
+<div class="text-xs muted">Signal and track meet on <code>:a5</code>. The track direction runs with <code>:a5</code> (00). The signal applies to traffic against the track direction (opposite), so against <code>:a5</code> as well (01). Works both ways.</div>
 
 </div>
 </div>

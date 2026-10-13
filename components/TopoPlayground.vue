@@ -44,7 +44,8 @@ function orientX(s: Sig) {
   const { dir } = at(elementById[s.el], view.value, s.t)
   return dir[0] * (reversed[s.el] ? -1 : 1)
 }
-const applies = (s: Sig) => (s.facing * (reversed[s.el] ? -1 : 1) > 0 ? 'normal' : 'reverse')
+// a signal facing the same way as its element applies to trains running in the element's reverse direction
+const applies = (s: Sig) => (s.facing * (reversed[s.el] ? -1 : 1) > 0 ? 'reverse' : 'normal')
 const kmDir = (s: Sig) => (s.facing * kmSign(elementById[s.el]) > 0 ? 'normal' : 'opposite')
 function offsetFromOrigin(s: Sig) {
   const len = elementLength(elementById[s.el])

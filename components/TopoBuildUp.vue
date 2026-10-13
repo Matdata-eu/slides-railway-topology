@@ -233,7 +233,7 @@ const area = ['e2', 'e3', 'e4', 'e5']
     </svg>
 
     <div class="legend" v-if="showLocations">
-      <span><i class="k spotk"></i> <b>SpotLocation</b> signal on e2 @ intrinsic 0.86, applicationDirection normal</span>
+      <span><i class="k spotk"></i> <b>SpotLocation</b> signal on e2 @ intrinsic 0.86, applicationDirection reverse</span>
       <span><i class="k link"></i> <b>LinearLocation</b> Track 2 = e3 [0→1] + e4 [1→0]</span>
       <span><i class="k areak"></i> <b>AreaLocation</b> OP «Stasjon» = {e2, e3, e4, e5}</span>
     </div>

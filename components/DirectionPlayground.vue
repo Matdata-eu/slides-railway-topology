@@ -25,12 +25,14 @@ const selected = ref('S3')
 const sel = computed(() => signals.find(s => s.id === selected.value)!)
 
 const trackOf = (s: Sig) => trackById2[elById2[s.el].track]
-const applies = (s: Sig) => (s.facing * (reversed[s.el] ? -1 : 1) > 0 ? 'normal' : 'opposite')
+// a signal facing the same way as its element applies to trains running in the element's reverse direction
+const applies = (s: Sig) => (s.facing * (reversed[s.el] ? -1 : 1) > 0 ? 'opposite' : 'normal')
 function orientation(s: Sig) {
   const main = trackOf(s).main
   if (main === 'undefined') return 'undefined'
   const withKm = s.facing > 0 // canonical geometry runs west → east, with the km
-  return (main === 'normal') === withKm ? 'normal' : 'opposite'
+  // same rule as appliesToDirection: facing with the track direction means it applies to traffic against it
+  return (main === 'normal') === withKm ? 'opposite' : 'normal'
 }
 
 function sigGeom(s: Sig) {
