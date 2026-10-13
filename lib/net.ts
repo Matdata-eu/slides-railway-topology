@@ -6,7 +6,7 @@
 // orientation (origin -> end) is canonical unless `reversed` is true.
 
 export type Pt = [number, number]
-export type View = 'geo' | 'schematic' | 'graph' | 'meso'
+export type View = 'geo' | 'schematic' | 'graph' | 'meso' | 'macro'
 
 export interface NodeDef { id: string; kind: 'end' | 'switch' | 'buffer'; label: string }
 export interface ElementDef {
@@ -90,7 +90,8 @@ export function points(el: ElementDef, view: View): Pt[] {
   if (!cache.has(key)) {
     let pts: Pt[]
     if (view === 'geo') pts = resample(el.schematic).map(toGeo)
-    else pts = resample(el[view === 'schematic' ? 'schematic' : view])
+    // macro reuses the meso geometry: the station collapses to a point, only the line remains
+    else pts = resample(el[view === 'schematic' ? 'schematic' : view === 'macro' ? 'meso' : view])
     cache.set(key, pts)
   }
   return cache.get(key)!

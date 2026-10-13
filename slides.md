@@ -94,15 +94,15 @@ Click through twelve steps:
 
 ---
 
-# The same station, four times
+# The same station, five times
 
 <TopoPlayground mode="layers" view="geo" :height="300" />
 
 <div class="text-sm muted mt-1">Same 6 elements and 3 switches. The geometry is a <b>view</b>; the connections are the <b>data</b>.</div>
 
 <!--
-Click through: Geographic → Schematic → Topology graph → Meso.
-The shapes morph, the connections never change. In the meso view, the whole station becomes one node: that is aggregation (RTM levels of detail).
+Click through: Geographic → Schematic → Topology graph → Meso → Macro.
+The shapes morph, the connections never change. In the meso view, the whole station becomes one node: that is aggregation (RTM levels of detail). In the macro view the station disappears and only the national railway line remains.
 -->
 
 ---

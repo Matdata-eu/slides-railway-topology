@@ -180,7 +180,9 @@ const nodeList = computed(() => Object.values(nodes).map(n => ({ ...n, p: nodePo
 const views: { id: View; label: string }[] = [
   { id: 'geo', label: 'Geographic' }, { id: 'schematic', label: 'Schematic' },
   { id: 'graph', label: 'Topology graph' }, { id: 'meso', label: 'Meso (station = node)' },
+  { id: 'macro', label: 'Macro (line only)' },
 ]
+const aggregated = computed(() => view.value === 'meso' || view.value === 'macro')
 const sideWidth = computed(() => (['flip', 'infer', 'connected'].includes(props.mode) ? '36%' : '0'))
 const sel = computed(() => signals.find(s => s.id === selectedSig.value)!)
 </script>
@@ -223,11 +225,11 @@ const sel = computed(() => signals.find(s => s.id === selectedSig.value)!)
         <!-- nodes -->
         <g v-for="n in nodeList" :key="n.id" :transform="`translate(${n.p[0]},${n.p[1]})`"
           @click="toggleNode(n.id)" :class="{ clickable: mode === 'connected' && n.kind === 'switch' }">
-          <circle v-if="n.kind === 'switch' && view !== 'meso'" r="7" class="node"
+          <circle v-if="n.kind === 'switch' && !aggregated" r="7" class="node"
             :class="{ off: disabledNodes.has(n.id), uturn: uTurnNode === n.id }" />
           <circle v-else-if="n.kind === 'end'" r="5" class="node end" />
-          <rect v-else-if="n.kind === 'buffer' && view !== 'meso'" x="-2" y="-9" width="5" height="18" class="buffer" />
-          <text v-if="n.kind === 'switch' && view !== 'meso' && view !== 'geo'" class="node-label" dy="-13">{{ n.label }}</text>
+          <rect v-else-if="n.kind === 'buffer' && !aggregated" x="-2" y="-9" width="5" height="18" class="buffer" />
+          <text v-if="n.kind === 'switch' && !aggregated && view !== 'geo'" class="node-label" dy="-13">{{ n.label }}</text>
           <text v-if="uTurnNode === n.id" class="uturn-t" dy="34">✗ not navigable</text>
         </g>
         <g v-if="view === 'meso'" transform="translate(500,200)">
@@ -236,9 +238,14 @@ const sel = computed(() => signals.find(s => s.id === selectedSig.value)!)
         <g v-if="view === 'meso'">
           <text x="270" y="190" class="sol-meso">SoL</text><text x="730" y="190" class="sol-meso">SoL</text>
         </g>
+        <g v-if="view === 'macro'">
+          <path d="M 60 200 L 940 200" class="macro-line" />
+          <text x="500" y="182" class="sol-meso">National railway line</text>
+          <text x="500" y="232" class="macro-sub">the station is no longer a node</text>
+        </g>
 
         <!-- signals -->
-        <g v-if="showSignals && view !== 'meso'">
+        <g v-if="showSignals && !aggregated">
           <g v-for="s in signals" :key="s.id" class="sig" @click="selectedSig = s.id"
             :class="{ active: s.id === selectedSig && (mode === 'flip' || mode === 'hook'), faded: mode==='hook' && s.id !== selectedSig }">
             <line :x1="sigGeom(s).p[0]" :y1="sigGeom(s).p[1]" :x2="sigGeom(s).base[0]" :y2="sigGeom(s).base[1]" class="mast" />
@@ -248,7 +255,7 @@ const sel = computed(() => signals.find(s => s.id === selectedSig.value)!)
         </g>
 
         <!-- flip: three direction arrows on the selected signal -->
-        <g v-if="mode === 'flip' && view !== 'meso'">
+        <g v-if="mode === 'flip' && !aggregated">
           <g :transform="`translate(${sigGeom(sel).p[0]},${sigGeom(sel).p[1] - 46})`">
             <!-- element orientation (blue) -->
             <line x1="-30" y1="0" x2="30" y2="0" class="arr blue"
@@ -370,6 +377,8 @@ const sel = computed(() => signals.find(s => s.id === selectedSig.value)!)
 .node-label { font-size: 11px; text-anchor: middle; fill: var(--c-ink-mod); font-weight: 600; }
 .uturn-t { font-size: 12px; text-anchor: middle; fill: var(--c-red); font-weight: 700; }
 .op-node { fill: var(--c-amber-bg); stroke: var(--c-amber-ink); stroke-width: 2.5; }
+.macro-line { stroke: var(--c-purple); stroke-width: 8; stroke-linecap: round; fill: none; }
+.macro-sub { font-size: 12px; text-anchor: middle; fill: var(--c-ink-mod); }
 .sol-meso { font-size: 15px; text-anchor: middle; fill: var(--c-purple); font-weight: 700; }
 .op-node-t { font-size: 12px; text-anchor: middle; fill: var(--c-amber-ink); font-weight: 700; }
 .chev { fill: none; stroke: var(--c-blue); stroke-width: 2.2; }

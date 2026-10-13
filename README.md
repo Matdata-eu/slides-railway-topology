@@ -35,7 +35,7 @@ The playground slides run on two toy networks:
 |---|---|---|
 | `TopoBuildUp` | Building a topology, step by step | Twelve clicks from an empty network to net elements, relations, the knowledge-graph view, schematic and geographic representations, spot/linear/area locations, and aggregation to the meso and macro levels |
 | `TopoPlayground mode="hook"` | Where is this signal? | One signal, four answers to "where is it?" |
-| `TopoPlayground mode="layers"` | The same station, four times | Morph between geographic, schematic, graph and meso (OP and SoL) |
+| `TopoPlayground mode="layers"` | The same station, five times | Morph between geographic, schematic, graph, meso (OP and SoL) and macro (only the national railway line) |
 | `TopoPlayground mode="navigability"` | Connected ≠ navigable | Click two elements to route between them; compare with a mechanical connection only |
 | `KmLie` | Problem 1 | Mileage change, same km on two lines, opposite counting directions |
 | `ConnectedToStation` | Generate it, don't trace it | `era:connectedTo` derived from the micro topology; lock a switch or hover a cell to trace the route |
