@@ -270,13 +270,18 @@ layout: section
 
 ---
 
-# Three arrows on one signal
+# Two directions on one signal
+
+<div class="grid grid-cols-2 gap-3 text-xs mb-1">
+<div class="card"><b>appliesToDirection</b>: does the signal apply to trains running in the <b>normal or reverse direction of the net element</b>?</div>
+<div class="card"><b>signalOrientation</b>: does the signal apply to trains running in the <b>normal or reverse direction of the track</b> (its main running direction)?</div>
+</div>
 
 <DirectionPlayground />
 
 <!--
 Double-track line: Line N has its main running direction with the km, Line S against it. Track 3 is a siding: no main direction.
-Green: where the signal faces. Orange: the track's main running direction. Blue: element orientation, origin 0 → end.
+Green: where the signal faces. Orange: the track's main running direction. Chevrons on the track: element orientation, origin 0 → end.
 appliesToDirection (ERA, railML applicationDirection) is relative to the element. signalOrientation (RINF) is relative to the track's main direction.
 Click a2 or a6 to flip them: appliesToDirection flips, signalOrientation never moves. S3 is a signal against the main direction: opposite. S4 on the siding: undefined.
 -->

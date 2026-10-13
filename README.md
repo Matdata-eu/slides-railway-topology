@@ -40,7 +40,7 @@ The playground slides run on two toy networks:
 | `KmLie` | Problem 1 | Mileage change, same km on two lines, opposite counting directions |
 | `ConnectedToStation` | Generate it, don't trace it | `era:connectedTo` derived from the micro topology; lock a switch or hover a cell to trace the route |
 | `TopologySpine`, `TurnoutRules` | Benefits, schematic layouts | Click-driven build and continuous-branch rules |
-| `DirectionPlayground` | Three arrows on one signal | Flip an element: `appliesToDirection` flips, `signalOrientation` (relative to the track's main direction) does not |
+| `DirectionPlayground` | Two directions on one signal | Flip an element: `appliesToDirection` flips, `signalOrientation` (relative to the track's main direction) does not |
 | `TopoPlayground mode="infer"` | Two teams, one spine | Drag the OP boundary: relations to track, OP, SoL and line are re-inferred |
 | `OpSplit` | One station, three primary locations | Splitting a station area into primary locations with intra-station borders, plus the meso view |
 | `TopoMatching` | Two topologies, one network | Assisted matching from one anchor (teaser for the tps-topo-matching demo) |

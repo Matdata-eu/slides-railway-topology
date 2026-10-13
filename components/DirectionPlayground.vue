@@ -58,7 +58,6 @@ function originMark(el: El2): Pt {
   return [p[0] + dir[1] * 13, p[1] - dir[0] * 13]
 }
 const flip = (id: string) => { reversed[id] = !reversed[id] }
-const orientX = computed(() => at2(elById2[sel.value.el], view.value, sel.value.t).dir[0] * (reversed[sel.value.el] ? -1 : 1))
 const mainOf = computed(() => trackOf(sel.value).main)
 </script>
 
@@ -96,7 +95,6 @@ const mainOf = computed(() => trackOf(sel.value).main)
           <line x1="-30" y1="-28" x2="30" y2="-28" class="a green" marker-end="url(#dp-green)" :transform="sigGeom(sel).fd[0] < 0 ? 'scale(-1,1)' : ''" />
           <line x1="-30" y1="-14" x2="30" y2="-14" class="a orange" v-if="mainOf !== 'undefined'" marker-end="url(#dp-orange)" :transform="mainOf === 'opposite' ? 'scale(-1,1)' : ''" />
           <line x1="-30" y1="-14" x2="30" y2="-14" class="a gray" v-else marker-end="url(#dp-gray)" marker-start="url(#dp-gray)" />
-          <line x1="-30" y1="0" x2="30" y2="0" class="a blue" marker-end="url(#dp-blue)" :transform="orientX < 0 ? 'scale(-1,1)' : ''" />
         </g>
       </svg>
       <div class="ctrl">
@@ -108,7 +106,7 @@ const mainOf = computed(() => trackOf(sel.value).main)
       <div class="legend">
         <div><span class="sw green"></span> Signal faces</div>
         <div><span class="sw orange"></span> Main running direction of the track</div>
-        <div><span class="sw blue"></span> Element orientation (0 → end)</div>
+        <div><span class="chevk">›</span> Element orientation (0 → end)</div>
       </div>
       <table>
         <tbody>
@@ -147,6 +145,7 @@ const mainOf = computed(() => trackOf(sel.value).main)
 .ctrl button { border: 1px solid var(--c-stroke); border-radius: 6px; padding: 3px 10px; background: var(--c-bg); color: var(--c-ink-mod); font-size: 12px; }
 .legend div { display: flex; align-items: center; gap: 6px; margin-bottom: 2px; font-size: 12px; }
 .sw { display: inline-block; width: 22px; height: 4px; border-radius: 2px; }
+.chevk { display: inline-block; width: 18px; color: var(--c-blue); font-weight: 800; }
 .sw.green { background: var(--c-green); } .sw.blue { background: var(--c-blue); } .sw.orange { background: var(--c-orange); }
 table { width: 100%; border-collapse: collapse; margin-top: 6px; }
 th, td { padding: 4px 5px; border-bottom: 1px solid var(--c-stroke); text-align: left; font-size: 12px; }
