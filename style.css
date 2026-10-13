@@ -98,3 +98,5 @@ html.dark {
 .tplib b { color: var(--c-ink); }
 
 .smallcode .slidev-code { font-size: 0.62rem !important; }
+
+.qr { width: 190px; height: 190px; background: #fff; padding: 8px; border-radius: 10px; border: 1px solid var(--c-stroke); }
