@@ -6,7 +6,7 @@ import { type Pt, elements, elementById, points, pathD, N_SAMPLES } from '../lib
  * Step-by-step build-up of a railway topology (RailTopoModel vocabulary):
  * network → net elements → orientation → net relations → knowledge graph view
  * → schematic / geographic representation → locations on the topology, shown in every representation
- * → aggregation to the meso level (OP + sections of line) and the macro level (only the national railway line).
+ * → aggregation to the meso level (OP + sections of line) and the macro level (the national line with its end stations, junctions and interchange stations).
  */
 const props = withDefaults(defineProps<{ step?: number; height?: number }>(), { step: 0, height: 330 })
 
@@ -23,7 +23,7 @@ const stages: { mode: Mode; title: string; sub: string }[] = [
   { mode: 'schematic', title: 'Same locations, schematic', sub: 'Nothing was re-entered: the positions are projected onto the schematic representation.' },
   { mode: 'geo', title: 'Same locations, geographic', sub: '… and onto the geographic one. One position, many representations.' },
   { mode: 'meso', title: 'Aggregation: meso level', sub: 'The station tracks collapse into one Operational Point, with a section of line to the left and to the right.' },
-  { mode: 'macro', title: 'Aggregation: macro level', sub: 'The station disappears from the graph. Only the national railway line remains.' },
+  { mode: 'macro', title: 'Aggregation: macro level', sub: 'The national line remains, with its start and end stations, junctions and interchange stations. A station that is just on the line disappears.' },
 ]
 const s = computed(() => Math.max(0, Math.min(stages.length - 1, props.step)))
 const stage = computed(() => stages[s.value])
@@ -211,14 +211,17 @@ const area = ['e2', 'e3', 'e4', 'e5']
       </g>
       <!-- meso + macro: neighbouring OPs / line ends -->
       <g v-if="aggregated" class="loc-in">
-        <circle cx="40" :cy="AGG_Y" r="9" class="opc small" /><text x="40" :y="AGG_Y + 30" class="opl">A</text>
-        <circle cx="960" :cy="AGG_Y" r="9" class="opc small" /><text x="960" :y="AGG_Y + 30" class="opl">B</text>
+        <path v-if="mode === 'macro'" :d="`M 960 ${AGG_Y} L 978 ${AGG_Y - 36}`" class="macro branch" />
+        <circle cx="40" :cy="AGG_Y" r="9" class="opc small" /><text :x="mode === 'macro' ? 28 : 40" :y="AGG_Y + 30" class="opl" :style="mode === 'macro' ? 'text-anchor: start' : ''">{{ mode === 'macro' ? 'A · start station' : 'A' }}</text>
+        <circle cx="960" :cy="AGG_Y" r="9" class="opc small" /><text :x="mode === 'macro' ? 972 : 960" :y="AGG_Y + 30" class="opl" :style="mode === 'macro' ? 'text-anchor: end' : ''">{{ mode === 'macro' ? 'B · junction' : 'B' }}</text>
       </g>
       <!-- macro: only the national railway line -->
       <g v-if="mode === 'macro'" class="loc-in">
         <path :d="`M 40 ${AGG_Y} L 960 ${AGG_Y}`" class="macro" />
-        <text x="500" :y="AGG_Y - 22" class="macrol">National railway line</text>
-        <text x="500" :y="AGG_Y + 46" class="aggn">the station is no longer a node: one line from A to B</text>
+        <circle :cx="OP[0]" :cy="OP[1]" r="16" class="ghost" />
+        <text x="500" :y="AGG_Y - 26" class="macrol">National railway line</text>
+        <text x="500" :y="AGG_Y + 36" class="aggn">«Stasjon» is just on the line: no longer a node</text>
+        <text x="500" :y="AGG_Y + 56" class="aggn">start / end stations, junctions and interchange stations stay</text>
       </g>
 
       <!-- positioning-system badge -->
@@ -292,6 +295,8 @@ g[transform] { transition: transform 1.2s ease-in-out; }
 .opl { font-size: 14px; font-weight: 700; text-anchor: middle; fill: var(--c-ink); }
 .aggn { font-size: 12px; text-anchor: middle; fill: var(--c-ink-mod); }
 .macro { stroke: var(--c-purple); stroke-width: 10; stroke-linecap: round; fill: none; }
+.macro.branch { opacity: .55; }
+.ghost { fill: none; stroke: var(--c-ink-subtle); stroke-width: 2; stroke-dasharray: 4 3; }
 .macrol { font-size: 16px; font-weight: 800; text-anchor: middle; fill: var(--c-purple); }
 @media (prefers-reduced-motion: reduce) { .elg.drift { animation: none; } }
 </style>

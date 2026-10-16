@@ -181,7 +181,7 @@ const nodeList = computed(() => Object.values(nodes).map(n => ({ ...n, p: nodePo
 const views: { id: View; label: string }[] = [
   { id: 'geo', label: 'Geographic' }, { id: 'schematic', label: 'Schematic' },
   { id: 'graph', label: 'Topology graph' }, { id: 'meso', label: 'Meso (station = node)' },
-  { id: 'macro', label: 'Macro (line only)' },
+  { id: 'macro', label: 'Macro (line, ends, junctions)' },
 ]
 const aggregated = computed(() => view.value === 'meso' || view.value === 'macro')
 const sideWidth = computed(() => (['flip', 'infer', 'connected'].includes(props.mode) ? '36%' : '0'))
@@ -241,8 +241,12 @@ const sel = computed(() => signals.find(s => s.id === selectedSig.value)!)
         </g>
         <g v-if="view === 'macro'">
           <path d="M 60 200 L 940 200" class="macro-line" />
+          <path d="M 940 200 L 962 164" class="macro-line branch" />
+          <circle cx="60" cy="200" r="9" class="macro-end" /><circle cx="940" cy="200" r="9" class="macro-end" />
+          <circle cx="500" cy="200" r="15" class="macro-ghost" />
+          <text x="60" y="228" class="macro-sub">A · start station</text><text x="940" y="228" class="macro-sub">B · junction</text>
           <text x="500" y="182" class="sol-meso">National railway line</text>
-          <text x="500" y="232" class="macro-sub">the station is no longer a node</text>
+          <text x="500" y="236" class="macro-sub">the station is just on the line: no longer a node</text>
         </g>
 
         <!-- signals -->
@@ -379,6 +383,9 @@ const sel = computed(() => signals.find(s => s.id === selectedSig.value)!)
 .uturn-t { font-size: 12px; text-anchor: middle; fill: var(--c-red); font-weight: 700; }
 .op-node { fill: var(--c-amber-bg); stroke: var(--c-amber-ink); stroke-width: 2.5; }
 .macro-line { stroke: var(--c-purple); stroke-width: 8; stroke-linecap: round; fill: none; }
+.macro-line.branch { opacity: .55; }
+.macro-end { fill: var(--c-amber-bg); stroke: var(--c-amber); stroke-width: 2.5; }
+.macro-ghost { fill: none; stroke: var(--c-ink-subtle); stroke-width: 2; stroke-dasharray: 4 3; }
 .macro-sub { font-size: 12px; text-anchor: middle; fill: var(--c-ink-mod); }
 .sol-meso { font-size: 15px; text-anchor: middle; fill: var(--c-purple); font-weight: 700; }
 .op-node-t { font-size: 12px; text-anchor: middle; fill: var(--c-amber-ink); font-weight: 700; }

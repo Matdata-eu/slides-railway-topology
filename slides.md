@@ -89,7 +89,7 @@ Click through twelve steps:
 8 Back to the abstract elements: spot, linear and area locations with intrinsic coordinates.
 9–10 The very same locations projected into schematic and geographic. Located once, shown everywhere.
 11 Meso level: the station tracks aggregate into one Operational Point, with a section of line on each side.
-12 Macro level: the station disappears from the graph, only the national railway line remains.
+12 Macro level: the national line remains with its start and end stations, junctions and interchange stations. A station that is just on the line, like this one, disappears.
 -->
 
 ---
@@ -102,7 +102,7 @@ Click through twelve steps:
 
 <!--
 Click through: Geographic → Schematic → Topology graph → Meso → Macro.
-The shapes morph, the connections never change. In the meso view, the whole station becomes one node: that is aggregation (RTM levels of detail). In the macro view the station disappears and only the national railway line remains.
+The shapes morph, the connections never change. In the meso view, the whole station becomes one node: that is aggregation (RTM levels of detail). In the macro view the national line remains with its start and end stations, junctions and interchange stations; this station is just on the line, so it disappears.
 -->
 
 ---
